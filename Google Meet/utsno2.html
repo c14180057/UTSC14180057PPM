@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<title></title>
+</head>
+<body>
+<div data-role="panel" id="menu" data-position="right">
+    	<select id="pages">
+		  <option value="1">Halaman 1</option>
+		  <option value="2">Halaman 2</option>
+		</select>
+	</div>
+
+	<div data-role="page" id="page-1">
+
+		<div data-role="header" id="constantheader-wrapper">
+			<div class="ui-grid-a">
+				<h1 class="ui-block-a">Halaman 1</h1>
+				<div class="ui-block-b" align="right">
+					<a class="ui-btn ui-btn-inline ui-corner-all" href="#menu" style="width: 30%;">Menu</a>
+				</div>
+			</div>
+			
+		</div>
+
+		<div role="main" class="ui-content">
+			
+			<div class="ui-block-b">
+					
+
+					<div class="ui-grid-a">
+						
+							<label for="angka">Jumlah Pinjaman</label>
+							<input type="number" name="angka" id="angka">
+							 <label for="slider-1" >Waktu Pinjaman :</label>
+							<input type="range" name="Slider" id="Slider" min="0" max="100" value="0" onchange="">
+							<button onclick="submit()" >Submit</button>
+						
+						<p id="hasil">Total Pengembalian : </p>
+					</div>
+
+					
+				</div>
+		</div>
+		
+	</div>
+
+
+	<div data-role="page" id="page-2">
+
+		<div data-role="header">
+			<div class="ui-grid-a">
+				<h1 class="ui-block-a">Halaman 2</h1>
+				<div class="ui-block-b" align="right">
+					<a class="ui-btn ui-btn-inline ui-corner-all" href="#menu" style="width: 30%;">Menu</a>
+				</div>
+			</div>
+		</div>
+
+		<div role="main" class="ui-content">
+			
+			<div class="ui-block-b">
+					
+
+					<div class="ui-grid-a">
+							<label for="radio-1" > Clear Screen</label>
+    						<input type="radio" name="radio-1" id="radio-1">
+							<p>List Pinjaman : </p>
+							<br>
+							<p>Tap and hold the list</p>
+							<p id="list"></p>
+							<p>
+					</div>
+
+					
+			</div>
+		</div>
+
+		
+	</div>
+
+</body>
+<script type="text/javascript">
+	var count=0
+	$(".radio-1").change(function() {
+    if(this.checked) {
+        
+        alert("test");
+    }
+	});
+	$(document).on("pagebeforecreate",function(){
+  alert("Welcome to 1st page of this website");
+}); 
+	$(document).on("pagecreate",function(){
+  alert("Hello this is page create event");
+});
+	$(document).ready(function(){
+  $("#list").on("taphold",function(){
+    $(this).hide();
+  });                       
+});
+	function submit()
+	{
+		count=count+1;
+		var hasil;
+		var bulan=Number($("#Slider").val());
+		var jumlah=Number($("#angka").val());
+		var bunga;
+		if(bulan>=1 && bulan<=6){
+			hasil=jumlah+(jumlah*(2/100)*6);
+			bunga=(jumlah*2)/100;
+			$("#hasil").append(jumlah+"+ ("+jumlah+" * 2% * "+bulan+" ) = "+hasil);
+		}
+		else if(bulan>=7 && bulan<=12)
+		{
+			bunga=(jumlah*1.5)/100;
+			hasil=jumlah+(jumlah*(1.5/100)*6);
+			$("#hasil").append(jumlah+"+ ("+jumlah+" * 1.5% * "+bulan+" ) = "+hasil);
+		}
+		else
+		{
+			bunga=(jumlah*1)/100;
+			hasil=jumlah+(jumlah*(1/100)*6);
+			$("#hasil").append(jumlah+"+ ("+jumlah+" * 1% * "+bulan+" ) = "+hasil);
+			
+		}
+		$("#list").append("<b>Pinjaman ke - "+count+"</b>");
+		$("#list").append("<p>Besar Pinjaman : "+jumlah+"</p>");
+			$("#list").append("<p>Lama Pinjaman : "+bulan+"</p>");
+		for(var i=1;i<=bulan;i++)
+		{
+			var last=hasil/bulan;
+			$("#list").append("<p>Bulan ke "+i+" : "+last+"</p>");
+		}
+	}
+
+		$("#pages").on("change",function(){
+			if($(this).val() == "1") {
+				window.location.href="#page-1";
+				$("#pages1").selectedIndex = 0;
+				// select($(this),1);
+			}
+			else if($(this).val() == "2") {
+				window.location.href="#page-2";
+				$("#pages2").selectedIndex = 1;
+				// select($(this),2);
+			}
+			
+		});
+</script>
+</html>
